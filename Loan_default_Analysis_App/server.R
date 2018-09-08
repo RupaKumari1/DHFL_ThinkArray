@@ -245,7 +245,7 @@ function(session,input, output) {
     }
     #Download csv file
     output$downloadData_Status <- downloadHandler(
-      filename = paste0("Loand_Status_Data.csv"),
+      filename = paste0("Loan_Status_Data.csv"),
       content = function(filename) {
         write.csv(homeloan_data, filename,row.names=FALSE)
       }
