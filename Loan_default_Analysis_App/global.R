@@ -26,7 +26,7 @@ library(magrittr)
 library(Matrix)
 
 #Loading data
-homeloan_data <- fread("data/home_loan_data.csv",stringsAsFactors = FALSE)
+homeloan_data <- readRDS("data/home_loan_data.Rds")
 
 #For indian states
 State_Summary <- homeloan_data %>%
