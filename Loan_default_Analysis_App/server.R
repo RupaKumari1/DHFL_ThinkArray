@@ -153,15 +153,16 @@ function(session,input, output) {
     input_Default_Status <- input$Default_Status
     
     if(input$year == "ALL"){
-      
       yearly_data_Summary <- homeloan_data %>%
         group_by(year) %>%
         summarise(counts = n())
+      yearly_data_Summary <- yearly_data_Summary[yearly_data_Summary$year %in% year,]
       
       last_pymnt_year_Summary <- homeloan_data %>%
         group_by(last_pymnt_year) %>%
         summarise(counts = n(),Net = sum(as.numeric(loan_amnt)))
       colnames(last_pymnt_year_Summary) <- c("last_year","counts","Net")
+      last_pymnt_year_Summary <- last_pymnt_year_Summary[last_pymnt_year_Summary$last_year %in% year,]
       
     } else{
       input_year <- input$year
@@ -202,6 +203,7 @@ function(session,input, output) {
     
     #For Line Plot
     output$linePlot <- renderPlotly({
+      
       p <- plot_ly(yearly_data_Summary, x = ~yearly_data_Summary$year, y = ~yearly_data_Summary$counts, 
                    name = 'Issued Loan', 
                    type = 'scatter', mode = 'lines',
@@ -213,10 +215,11 @@ function(session,input, output) {
                   text = paste0(last_pymnt_year_Summary$last_year,',',last_pymnt_year_Summary$counts,',',"Last Payment"),
                   hoverinfo = 'text'
         )%>%
-        layout(showlegend = TRUE,legend = list(x = 0.8, y = 1),
+        layout(showlegend = TRUE,legend = list(orientation = 'h'),
                title = "Count of Issued Loans and Last Payments",
                xaxis = list(title = F,showticklabels = TRUE),
-               yaxis = list(title = "Count"))
+               yaxis = list(title = "Count"))%>% 
+        config(displayModeBar = F)
       
     })
     
