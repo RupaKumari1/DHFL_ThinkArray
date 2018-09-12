@@ -94,7 +94,7 @@ dashboardPage(
                 box(selectInput('year',"Select Loan Issue Year",choices=year,selected=year[1]),width = 4),
                 box(selectInput('Default_Status',"Select Loan Status",choices=loan_Default_Status),width = 4),
                 box(selectInput('status',"Select Status in Details",choices=loan_status),width = 4),
-                box(plotlyOutput("linePlot",height = 400),width = 5),
+                box(plotlyOutput("linePlot",height = 400,width = "95%"),width = 5),
                 box(plotlyOutput("barPlot", height = 400),width = 7)
         ),
         
@@ -104,7 +104,7 @@ dashboardPage(
                 box(selectInput('pymnt_year',"Select Last Payment Year",choices=pymnt_year,selected=pymnt_year[1]),width = 4),
                 box(selectInput('issue_year',"Select Issue Year",choices=issue_year),width = 4),
                 box(selectInput('criteria',"Select Criteria",choices=criteria,selected=criteria[1]),width = 4),
-                box(plotlyOutput("pie_chart", height = 400),width = 4),
+                box(plotlyOutput("pie_chart", height = 400,width = "85%"),width = 4),
                 box(plotlyOutput("barPlot_status", height = 400),width = 8)
         )
       )

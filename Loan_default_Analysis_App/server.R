@@ -217,8 +217,8 @@ function(session,input, output) {
         )%>%
         layout(showlegend = TRUE,legend = list(orientation = 'h'),
                title = "Count of Issued Loans and Last Payments",
-               xaxis = list(title = F,showticklabels = TRUE),
-               yaxis = list(title = "Count"))%>% 
+               xaxis = list(title = F,showticklabels = TRUE,tickangle = -10,showgrid = FALSE),
+               yaxis = list(title = "Count",showgrid = FALSE))%>% 
         config(displayModeBar = F)
       
     })
@@ -227,7 +227,7 @@ function(session,input, output) {
     #For Bar Plot
     if(nrow(data_status) != 0){
       output$barPlot <- renderPlotly({
-        xform <- list(title=F,categoryorder = "Quater",categoryarray = emp_len_list[1:11],showgrid = FALSE, zeroline = TRUE, showticklabels = TRUE)
+        xform <- list(title=F,tickangle = -20,categoryorder = "Quater",categoryarray = emp_len_list[1:11],showgrid = FALSE, zeroline = TRUE, showticklabels = TRUE)
         p <- plot_ly(data =data_status,
                      x = ~emp_length,
                      y = ~Net,
@@ -238,8 +238,8 @@ function(session,input, output) {
         )%>%
           layout(xaxis = xform, showlegend = FALSE,
                  title = "Yearly Loan Amount Across Employee Length",
-                 yaxis = list(title = "Yearly Loan Amount")
-          )
+                 yaxis = list(title = "Yearly Loan Amount",showgrid = FALSE))%>% 
+          config(displayModeBar = F)
       })
     }
     
@@ -303,7 +303,8 @@ function(session,input, output) {
         add_pie(hole = 0.6) %>%
         layout(title = "Loans Issued Across Categories",  showlegend = F,
                xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-               yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+               yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))%>% 
+        config(displayModeBar = F)
       
     })
     #For Bar plot
@@ -311,8 +312,9 @@ function(session,input, output) {
       p <-df %>%
         plot_ly(x = ~selected_data, y = ~Net, type = 'bar')%>%
         layout(title = "Total Loan Amount Across Categories",
-               xaxis = list(title = FALSE),
-               yaxis = list(title = "Total Amount"))
+               xaxis = list(title = FALSE,showgrid = FALSE),
+               yaxis = list(title = "Total Amount",showgrid = FALSE))%>% 
+        config(displayModeBar = F)
       
     })
     

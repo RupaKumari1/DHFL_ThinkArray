@@ -91,7 +91,7 @@ homeloan_data$last_pymnt_d <- dmy(homeloan_data$last_pymnt_d)
 loan_Default_Status <- c("ALL",sort(as.character(unique(homeloan_data$Default_Status))))
 loan_status <- c("ALL",sort(as.character(unique(homeloan_data$loan_status))))
 emp_len_list <- c( "< 1 year","1 year", "2 years","3 years", "4 years","5 years","6 years","7 years", "8 years","9 years" ,"10+ years","n/a")
-criteria <- list("Loan Grade" = "grade", "Loan Term" = "term","Loan Status" = "loan_status","Loan Sub-Grade" = "sub_grade","Home Ownership" = "home_ownership","Verification Status" = "verification_status","Loan Purpose" = "purpose","Properly State" = "State")
+criteria <- list("Loan Status" = "Default_Status","Loan Grade" = "grade", "Loan Term" = "term","Loan Sub-Grade" = "sub_grade","Home Ownership" = "home_ownership","Verification Status" = "verification_status","Loan Purpose" = "purpose","Properly State" = "State")
 
 # Checking for percentage of values available
 valid_tbl_cnt <- as.data.frame(sapply(homeloan_data, function(x) sum(!is.na(x))/nrow(homeloan_data)))
