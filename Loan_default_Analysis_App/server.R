@@ -203,6 +203,7 @@ function(session,input, output) {
     
     #For Line Plot
     output$linePlot <- renderPlotly({
+      library(plotly)
       
       p <- plot_ly(yearly_data_Summary, x = ~yearly_data_Summary$year, y = ~yearly_data_Summary$counts, 
                    name = 'Issued Loan', 
@@ -215,10 +216,9 @@ function(session,input, output) {
                   text = paste0(last_pymnt_year_Summary$last_year,',',last_pymnt_year_Summary$counts,',',"Last Payment"),
                   hoverinfo = 'text'
         )%>%
-        layout(showlegend = TRUE,legend = list(orientation = 'h'),
-               title = "Count of Issued Loans and Last Payments",
-               xaxis = list(title = F,showticklabels = TRUE,tickangle = -10,showgrid = FALSE),
-               yaxis = list(title = "Count",showgrid = FALSE))%>% 
+        layout(legend = list(orientation = 'h'),title = "Count of Issued Loans and Last Payments",
+               xaxis = list(title = "",zeroline = FALSE,tickangle = -10,showgrid = FALSE, showline = FALSE),
+               yaxis = list(title = "Count",zeroline = FALSE,tickangle = -10,showgrid = FALSE, showline = FALSE))%>%
         config(displayModeBar = F)
       
     })
@@ -227,7 +227,7 @@ function(session,input, output) {
     #For Bar Plot
     if(nrow(data_status) != 0){
       output$barPlot <- renderPlotly({
-        xform <- list(title=F,tickangle = -20,categoryorder = "Quater",categoryarray = emp_len_list[1:11],showgrid = FALSE, zeroline = TRUE, showticklabels = TRUE)
+        xform <- list(title=F,tickangle = -20,categoryorder = "Quater",categoryarray = emp_len_list[1:11],showgrid = FALSE, zeroline = FALSE,showline = FALSE)
         p <- plot_ly(data =data_status,
                      x = ~emp_length,
                      y = ~Net,
@@ -238,7 +238,7 @@ function(session,input, output) {
         )%>%
           layout(xaxis = xform, showlegend = FALSE,
                  title = "Yearly Loan Amount Across Employee Length",
-                 yaxis = list(title = "Yearly Loan Amount",showgrid = FALSE))%>% 
+                 yaxis = list(title = "Yearly Loan Amount",showgrid = FALSE,zeroline = FALSE,showline = FALSE))%>% 
           config(displayModeBar = F)
       })
     }
@@ -274,6 +274,8 @@ function(session,input, output) {
     select_pymnt_year <- input$pymnt_year
     select_issue_year <- input$issue_year
     select_status_criteria <- input$criteria
+    homeloan_data$last_pymnt_year <- ifelse((is.na(homeloan_data$last_pymnt_year)),"In Progress",homeloan_data$last_pymnt_year)
+    
     
     if(select_pymnt_year != "ALL"){
       homeloan_data <- homeloan_data[homeloan_data$last_pymnt_year == select_pymnt_year,]
@@ -298,7 +300,6 @@ function(session,input, output) {
                 textposition = "inside",
                 textinfo = "text",
                 hoverinfo= 'label+percent'
-                
         ) %>%
         add_pie(hole = 0.6) %>%
         layout(title = "Loans Issued Across Categories",  showlegend = F,
@@ -312,8 +313,8 @@ function(session,input, output) {
       p <-df %>%
         plot_ly(x = ~selected_data, y = ~Net, type = 'bar')%>%
         layout(title = "Total Loan Amount Across Categories",
-               xaxis = list(title = FALSE,showgrid = FALSE),
-               yaxis = list(title = "Total Amount",showgrid = FALSE))%>% 
+               xaxis = list(title = FALSE,zeroline = FALSE,showgrid = FALSE, showline = FALSE),
+               yaxis = list(title = "Total Amount",zeroline = FALSE,showgrid = FALSE, showline = FALSE))%>% 
         config(displayModeBar = F)
       
     })
